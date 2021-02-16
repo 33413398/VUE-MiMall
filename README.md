@@ -1,24 +1,19 @@
-# mimall
+# 仿小米电商项目
 
-## Project setup
-```
-npm install
-```
+### 使用技术：vue-3.0以及4.5vue-cli脚手架
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+##### 项目实现的功能：
 
-### Compiles and minifies for production
-```
-npm run build
-```
+1. 轮播图
 
-### Lints and fixes files
-```
-npm run lint
-```
+2. 商品详情页
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+3. 支付宝、微信支付调用
+
+4. 购物车等常用电商功能模块
+
+5. 图片懒加载
+
+   ​								
+
+   ​														项目开始时间[^2020年02月16日]
