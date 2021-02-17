@@ -5,8 +5,15 @@
 </template>
 
 <script>
+import storage from './storage'
 export default {
   name: 'App',
+  data() {
+    return {}
+  },
+  mounted() {
+    storage.setItem('a', 1)
+  },
 }
 </script>
 
