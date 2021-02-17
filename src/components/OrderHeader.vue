@@ -1,18 +1,12 @@
 <template>
   <div>
-    cart
+    order-Header
   </div>
 </template>
 
 <script>
 export default {
-  name: 'cart',
-  data() {
-    return {}
-  },
-  created() {},
-  mounted() {},
-  methods: {},
+  name: 'order-Header',
 }
 </script>
 

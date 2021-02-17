@@ -7,8 +7,9 @@
 </template>
 <script>
 import NavHeader from '../components/NavHeader.vue'
+import NavFooter from '../components/NavFooter.vue'
 export default {
-  components: { NavHeader },
+  components: { NavHeader, NavFooter },
   name: 'home',
 }
 </script>
