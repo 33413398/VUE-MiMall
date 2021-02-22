@@ -1,16 +1,19 @@
-import Vue, { createApp } from 'vue'
+import { createApp } from 'vue'
 import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 /* 一般布局，上面插件，下面组件 */
 import App from './App.vue'
-import env from './util/env'
+// import env from './util/env'
 
-axios.create({
-  // baseURL: '/api',
-  baseURL: env.baseURL,
-  timeout: 8000,
-})
+//mock开关
+const mock = false
+if (mock) {
+  require('./mock/api')
+}
+axios.defaults.baseURL = '/api'
+axios.defaults.timeout = 8000
+
 axios.interceptors.response.use(
   function(response) {
     let res = response.data

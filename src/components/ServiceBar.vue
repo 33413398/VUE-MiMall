@@ -1,14 +1,9 @@
 <template>
-  <div>
-    index111
-    <span v-html="res"></span>
-  </div>
+  <div></div>
 </template>
 
 <script>
-import storage from '../storage'
 export default {
-  name: 'index',
   data() {
     return {}
   },
