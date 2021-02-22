@@ -1,7 +1,6 @@
 <template>
-  <div>
-    index111
-    <span v-html="res"></span>
+  <div class="index">
+    <h1>首页</h1>
   </div>
 </template>
 
@@ -18,4 +17,9 @@ export default {
 }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="scss" scoped>
+.index {
+  padding: 3% 0;
+  background-color: #ccc;
+}
+</style>
