@@ -10,7 +10,10 @@
   width: $min-width;
   margin: 0 auto;
 }
-
+@mixin imgsize($w:100%,$h:100%) {
+  width: $w;
+  height:$h;
+}
 @mixin bgimage($w:0,$h:0,$url:'',$size:contain,$position:center) {
   display: inline-block;
   width: $w;

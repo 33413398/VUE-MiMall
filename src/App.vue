@@ -12,9 +12,11 @@ export default {
       res: {},
     }
   },
+  mounted() {},
 }
 </script>
 
 <style>
 @import './assets/scss/reset.scss';
+/* @import './assets/scss/base.scss'; */
 </style>

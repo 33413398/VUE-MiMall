@@ -9,8 +9,8 @@
           <a href="javaScript:;" target="_blank" style="marginRight:15px">协议规则</a>
         </div>
         <div class="topbar-user">
-          <a href="javaScript:;" target="_blank" class="topbar-user-login">登录</a>
-          <a href="javaScript:;" target="_blank" class="topbar-user-cart">
+          <a href="#/login" target="_self" class="topbar-user-login">登录</a>
+          <a href="javaScript:;" target="_self" class="topbar-user-cart">
             <span class="icon-cart"></span>
             <span>购物车(0)</span>
           </a>
@@ -29,7 +29,7 @@
               <ul>
                 <li class="product" v-for="(item, index) in phoneList" :key="index">
                   <a href="javaScript:;">
-                    <div class="pro-img"><img :src="item.mainImage" :alt="item.name" /></div>
+                    <div class="pro-img"><img v-lazy="item.mainImage" :alt="item.name" /></div>
                     <div class="pro-name">{{ item.name }}</div>
                     <div class="pro-price">{{ item.price }}</div>
                   </a>
@@ -44,42 +44,42 @@
               <ul>
                 <li class="product">
                   <a href="javaScript:;">
-                    <div class="pro-img"><img src="../../public/imgs/nav-img/nav-3-1.jpg" alt="tv1" /></div>
+                    <div class="pro-img"><img v-lazy="'../../public/imgs/nav-img/nav-3-1.jpg'" alt="tv1" /></div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">6999元</div>
                   </a>
                 </li>
                 <li class="product">
                   <a href="javaScript:;">
-                    <div class="pro-img"><img src="../../public/imgs/nav-img/nav-3-2.jpg" alt="tv1" /></div>
+                    <div class="pro-img"><img v-lazy="'../../public/imgs/nav-img/nav-3-2.jpg'" alt="tv1" /></div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">6999元</div>
                   </a>
                 </li>
                 <li class="product">
                   <a href="javaScript:;">
-                    <div class="pro-img"><img src="../../public/imgs/nav-img/nav-3-3.png" alt="tv1" /></div>
+                    <div class="pro-img"><img v-lazy="'../../public/imgs/nav-img/nav-3-3.png'" alt="tv1" /></div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">6999元</div>
                   </a>
                 </li>
                 <li class="product">
                   <a href="javaScript:;">
-                    <div class="pro-img"><img src="../../public/imgs/nav-img/nav-3-4.jpg" alt="tv1" /></div>
+                    <div class="pro-img"><img v-lazy="'../../public/imgs/nav-img/nav-3-4.jpg'" alt="tv1" /></div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">6999元</div>
                   </a>
                 </li>
                 <li class="product">
                   <a href="javaScript:;">
-                    <div class="pro-img"><img src="../../public/imgs/nav-img/nav-3-5.jpg" alt="tv1" /></div>
+                    <div class="pro-img"><img v-lazy="'../../public/imgs/nav-img/nav-3-5.jpg'" alt="tv1" /></div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">6999元</div>
                   </a>
                 </li>
                 <li class="product">
                   <a href="javaScript:;">
-                    <div class="pro-img"><img src="../../public/imgs/nav-img/nav-3-6.png" alt="tv1" /></div>
+                    <div class="pro-img"><img v-lazy="'../../public/imgs/nav-img/nav-3-6.png'" alt="tv1" /></div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">6999元</div>
                   </a>

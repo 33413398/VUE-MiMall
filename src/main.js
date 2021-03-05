@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueLazyloadNext from 'vue-lazyload-next'
 /* 一般布局，上面插件，下面组件 */
 import App from './App.vue'
 // import env from './util/env'
@@ -29,7 +30,13 @@ axios.interceptors.response.use(
 const app = createApp(App)
 // 注入路由
 app.use(router)
+// 挂载图片懒加载插件
+app.use(VueLazyloadNext, {
+  loading: require('../public/imgs/loading-svg/loading-bars.svg'),
+  attempt: 1
+})
 // 将axios通过vueaxios挂载到this实例上去,就可以通过this去调用了
 app.use(VueAxios, axios)
+// app.use(Cookies)
 // 挂载实例
 app.mount('#app')
