@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'App',
   data() {
@@ -12,7 +13,25 @@ export default {
       res: {},
     }
   },
-  mounted() {},
+  mounted() {
+    this.getUserInfo()
+    this.getCartCount()
+  },
+  methods: {
+    getUserInfo() {
+      this.axios.get('/user').then(res => {
+        let { username } = res
+        // this.$store.commit('saveUserName', username)
+        this.saveUserName(username) //使用了mapActions导入即可简写
+      })
+    },
+    getCartCount() {
+      this.axios.get('/carts/products/sum').then(res => {
+        this.$store.commit('saveCartCount', res)
+      })
+    },
+    ...mapActions(['saveUserName']),
+  },
 }
 </script>
 

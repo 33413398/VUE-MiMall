@@ -1,7 +1,7 @@
 <template>
-  <transition name="slide">
-    <div class="modal">
-      <div class="mask">
+  <div class="modal">
+    <div class="mask">
+      <transition name="slide">
         <div class="modal-dialog">
           <div class="modal-header">
             {{ title }}
@@ -16,9 +16,9 @@
             </div>
           </div>
         </div>
-      </div>
+      </transition>
     </div>
-  </transition>
+  </div>
 </template>
 
 <script>
@@ -54,31 +54,37 @@ export default {
 @import '../assets/scss/mixin.scss';
 @import '../assets/scss/config.scss';
 .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
   width: 100%;
   height: 100%;
-  transition: all 1s;
-  &.slide-enter-active {
-    top: 0;
-  }
-  &.slide-leave-active {
-    top: -100%;
-  }
-  &.slide-enter {
-    top: -100%;
-  }
   .mask {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 99;
     width: 100%;
     height: 100%;
     background-color: rgba($color: #000000, $alpha: 0.5);
     .modal-dialog {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
       width: 660px;
       height: 257px;
-      margin: 8% auto 0;
+      transition: all 0.5s;
       background-color: #fff;
+      .slide-enter-active {
+        top: 20%;
+      }
+      .slide-leave-active {
+        top: -100%;
+      }
+      .slide-enter {
+        top: -100%;
+      }
       .modal-header {
         position: relative;
         height: 60px;

@@ -63,8 +63,8 @@ export default {
             },
           })
           let { id, username } = res
-
           Cookies.set('userId', id, { expires: 30 })
+          this.$store.commit('saveUserName', username)
         })
         .catch(res => {
           return Promise.reject(res)

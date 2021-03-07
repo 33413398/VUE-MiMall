@@ -186,8 +186,20 @@ export default {
         })
     },
     cartHandel(id) {
+      this.axios
+        .post('/carts', {
+          productId: id,
+          selected: true,
+        })
+        .then(res => {
+          //输入函数体
+          return window.alert('商品添加成功')
+        })
+        .catch(res => {
+          //输入函数体
+          return window.alert(res)
+        })
       this.modalFlag = true
-      console.log(id)
     },
     goToCart() {
       this.$router.push('/cart')

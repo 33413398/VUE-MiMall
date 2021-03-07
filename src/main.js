@@ -5,6 +5,8 @@ import VueAxios from 'vue-axios'
 import VueLazyloadNext from 'vue-lazyload-next'
 /* 一般布局，上面插件，下面组件 */
 import App from './App.vue'
+import store from './store/index'
+
 // import env from './util/env'
 
 //mock开关
@@ -18,8 +20,13 @@ axios.defaults.timeout = 8000
 axios.interceptors.response.use(
   function(response) {
     let res = response.data
+    let path = location.hash
     if (res.status == 0) return res.data
-    else if (res.status == 10) window.location.href = '/#/login'
+    else if (res.status == 10) {
+      if(path!='#/index'){
+        window.location.href = '/#/login'
+      }
+    }
     else alert(res.msg)
   },
   function(error) {
@@ -37,6 +44,7 @@ app.use(VueLazyloadNext, {
 })
 // 将axios通过vueaxios挂载到this实例上去,就可以通过this去调用了
 app.use(VueAxios, axios)
-// app.use(Cookies)
+// 挂载vuex到实例
+app.use(store)
 // 挂载实例
 app.mount('#app')

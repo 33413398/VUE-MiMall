@@ -9,10 +9,12 @@
           <a href="javaScript:;" target="_blank" style="marginRight:15px">协议规则</a>
         </div>
         <div class="topbar-user">
-          <a href="#/login" target="_self" class="topbar-user-login">登录</a>
+          <a v-if="!username" href="#/login" target="_self" class="topbar-user-login">登录</a>
+          <a v-if="username" href="javascript:;" target="_self" class="topbar-user-username">{{ username }}</a>
+          <a v-if="username" href="javascript:;" target="_self" class="topbar-user-order">我的订单</a>
           <a href="javaScript:;" target="_self" class="topbar-user-cart">
             <span class="icon-cart"></span>
-            <span>购物车(0)</span>
+            <span>购物车({{ this.$store.state.cartCount }})</span>
           </a>
         </div>
       </div>
@@ -98,13 +100,23 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'nav-Header',
   data() {
     return {
-      username: 'jack',
       phoneList: [],
     }
+  },
+  computed: {
+    /*  username() {
+      return this.$store.state.username
+    },
+    cartCount() {
+      //如果写了计算属性，那data状态中就不用再写该属性了，已经自动进入可以像调用属性那样调用值
+      return this.$store.state.cartCount
+    }, */
+    ...mapState(['username', 'username']), //简写方法，等同上面
   },
   mounted() {
     this.getProductList() //  展示顶部商品时再放开请求
@@ -146,6 +158,16 @@ export default {
       .topbar-user {
         float: right;
         .topbar-user-login {
+          display: inline-block;
+          color: #b0b0b0;
+          margin-right: 17px;
+        }
+        .topbar-user-username {
+          display: inline-block;
+          color: #b0b0b0;
+          margin-right: 17px;
+        }
+        .topbar-user-order {
           display: inline-block;
           color: #b0b0b0;
           margin-right: 17px;
