@@ -26,10 +26,10 @@
             <li class="menu-item">生活 箱包</li>
           </ul>
         </div>
-        <swiper :slides-per-view="1">
+        <swiper :slides-per-view="1" autoplay data-swiper-autoplay="2000" loop effect="cube" navigation :pagination="{ clickable: true }" :scrollbar="{ draggable: true }" :space-between="5">
           <swiper-slide v-for="(item, index) in slideList" :key="index">
             <a :href="'/#/product/' + item.id">
-              <img v-lazy="item.img" />
+              <img :src="item.img" />
             </a>
           </swiper-slide>
         </swiper>
@@ -73,15 +73,25 @@
       </div>
     </div>
     <modal v-if="modalFlag" v-on:submit="goToCart" v-on:cancel="modalFlag = false" title="添加商品" content="商品添加成功！" :btn="modalBtn" :btnnum="false"></modal>
+    <service-bar></service-bar>
   </div>
 </template>
 
 <script>
-import SwiperCore, { EffectFade, Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper'
+import SwiperCore, { Navigation, Pagination, A11y, EffectCube, Autoplay } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import 'swiper/swiper.scss'
 import Modal from '../components/Modal.vue'
-SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Autoplay, EffectFade])
+import ServiceBar from '../components/ServiceBar'
+import 'swiper/swiper.scss'
+import 'swiper/components/pagination/pagination.scss'
+import 'swiper/components/controller/controller.scss'
+import 'swiper/components/effect-cube/effect-cube.scss'
+import 'swiper/components/navigation/navigation.scss'
+import 'swiper/components/thumbs/thumbs.scss'
+import 'swiper/components/a11y/a11y.scss'
+import 'swiper/components/controller/controller.scss'
+SwiperCore.use([Navigation, Pagination, EffectCube, A11y, Autoplay])
+
 export default {
   name: 'index',
   data() {
@@ -90,10 +100,6 @@ export default {
       modalBtn: {
         type: '',
         title: '查看购物车',
-      },
-      swiperOption: {
-        Autoplay: true,
-        loop: true,
       },
       slideList: [
         {
@@ -165,12 +171,32 @@ export default {
           img: require('../../public/imgs/ads/ads-4.jpg'),
         },
       ],
+      swiperOption: {
+        autoplay: true,
+        loop: true,
+        effect: 'cube',
+        cubeEffect: {
+          shadowOffset: 100,
+          shadowScale: 0.6,
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      },
     }
   },
   created() {
     this.getProductList()
   },
-  mounted() {},
+  mounted() {
+    // const swiper = document.querySelector('.swiper-container').swiper
+    // swiper.autoplay.start()
+  },
   methods: {
     getProductList() {
       this.axios
@@ -192,14 +218,13 @@ export default {
           selected: true,
         })
         .then(res => {
-          //输入函数体
-          return window.alert('商品添加成功')
+          this.$store.commit('saveCartCount', res.cartTotalQuantity)
+          this.modalFlag = true
         })
         .catch(res => {
           //输入函数体
           return window.alert(res)
         })
-      this.modalFlag = true
     },
     goToCart() {
       this.$router.push('/cart')
@@ -209,6 +234,7 @@ export default {
     Swiper,
     SwiperSlide,
     Modal,
+    ServiceBar,
   },
 }
 </script>

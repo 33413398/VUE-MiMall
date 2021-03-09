@@ -22,7 +22,7 @@
     <div class="header-bottom">
       <div class="content">
         <div class="header-log">
-          <a href="javaScript:;" target="_blank"> </a>
+          <a href="#/index"> </a>
         </div>
         <div class="header-nav">
           <div class="item-menu">
@@ -46,42 +46,42 @@
               <ul>
                 <li class="product">
                   <a href="javaScript:;">
-                    <div class="pro-img"><img v-lazy="'../../public/imgs/nav-img/nav-3-1.jpg'" alt="tv1" /></div>
+                    <div class="pro-img"><img v-lazy="require('/public/imgs/nav-img/nav-3-1.jpg')" alt="tv1" /></div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">6999元</div>
                   </a>
                 </li>
                 <li class="product">
                   <a href="javaScript:;">
-                    <div class="pro-img"><img v-lazy="'../../public/imgs/nav-img/nav-3-2.jpg'" alt="tv1" /></div>
+                    <div class="pro-img"><img v-lazy="require('/public/imgs/nav-img/nav-3-2.jpg')" alt="tv2" /></div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">6999元</div>
                   </a>
                 </li>
                 <li class="product">
                   <a href="javaScript:;">
-                    <div class="pro-img"><img v-lazy="'../../public/imgs/nav-img/nav-3-3.png'" alt="tv1" /></div>
+                    <div class="pro-img"><img v-lazy="require('/public/imgs/nav-img/nav-3-3.png')" alt="tv3" /></div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">6999元</div>
                   </a>
                 </li>
                 <li class="product">
                   <a href="javaScript:;">
-                    <div class="pro-img"><img v-lazy="'../../public/imgs/nav-img/nav-3-4.jpg'" alt="tv1" /></div>
+                    <div class="pro-img"><img v-lazy="require('/public/imgs/nav-img/nav-3-4.jpg')" alt="tv4" /></div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">6999元</div>
                   </a>
                 </li>
                 <li class="product">
                   <a href="javaScript:;">
-                    <div class="pro-img"><img v-lazy="'../../public/imgs/nav-img/nav-3-5.jpg'" alt="tv1" /></div>
+                    <div class="pro-img"><img v-lazy="require('/public/imgs/nav-img/nav-3-5.jpg')" alt="tv5" /></div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">6999元</div>
                   </a>
                 </li>
                 <li class="product">
                   <a href="javaScript:;">
-                    <div class="pro-img"><img v-lazy="'../../public/imgs/nav-img/nav-3-6.png'" alt="tv1" /></div>
+                    <div class="pro-img"><img v-lazy="require('/public/imgs/nav-img/nav-3-6.png')" alt="tv6" /></div>
                     <div class="pro-name">小米壁画电视 65英寸</div>
                     <div class="pro-price">6999元</div>
                   </a>

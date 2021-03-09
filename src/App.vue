@@ -19,14 +19,14 @@ export default {
   },
   methods: {
     getUserInfo() {
-      this.axios.get('/user').then(res => {
+      this.axios.get('/user').then((res = {}) => {
         let { username } = res
         // this.$store.commit('saveUserName', username)
         this.saveUserName(username) //使用了mapActions导入即可简写
       })
     },
     getCartCount() {
-      this.axios.get('/carts/products/sum').then(res => {
+      this.axios.get('/carts/products/sum').then((res = 0) => {
         this.$store.commit('saveCartCount', res)
       })
     },
@@ -37,5 +37,8 @@ export default {
 
 <style>
 @import './assets/scss/reset.scss';
-/* @import './assets/scss/base.scss'; */
+@import './assets/scss/base.scss';
+.swiper-button-prev {
+  left: 274px !important;
+}
 </style>

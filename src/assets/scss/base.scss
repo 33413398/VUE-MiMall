@@ -1,1 +1,31 @@
-//公共样式抽离出来，直接导入就显示这里的基础样式了
+
+.clearfix:before,.clearfix:after{
+  content:' ';
+  display:table;
+}
+.clearfix:after{
+  clear: both;
+}
+.container{
+  position: relative;
+  width:1226px;
+  margin-right:auto;
+  margin-left:auto;
+}
+a{
+  img{
+    width:100%;
+    height: 100%;
+  }
+}
+input{
+  outline: none;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.fl{
+  float: left;
+}
+.fr{
+  float: right;
+}
