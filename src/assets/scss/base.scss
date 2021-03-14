@@ -1,9 +1,10 @@
-
 .clearfix:before,.clearfix:after{
   content:' ';
   display:table;
 }
 .clearfix:after{
+  overflow: hidden;
+  visibility: hidden;
   clear: both;
 }
 .container{

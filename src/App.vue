@@ -6,6 +6,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import cookie from 'vue-cookie'
 export default {
   name: 'App',
   data() {
@@ -14,8 +15,10 @@ export default {
     }
   },
   mounted() {
-    this.getUserInfo()
-    this.getCartCount()
+    if (cookie.get('userId')) {
+      this.getUserInfo()
+      this.getCartCount()
+    }
   },
   methods: {
     getUserInfo() {

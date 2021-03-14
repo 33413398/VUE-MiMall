@@ -1,6 +1,5 @@
 @import './config.scss';
 @mixin flex($hov:space-between,$col:center){
-  //形参默认值，封装flex样式函数，导入之后调用：@include flex();
   display: flex;
   justify-content:$hov;
   align-items: $col;

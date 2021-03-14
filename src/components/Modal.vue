@@ -11,8 +11,8 @@
           <div class="modal-footer ">
             <a v-if="!btnnum" href="javascript:;" :class="'btn' + ' ' + btn.type" @click="$emit('submit')">{{ btn.title }}</a>
             <div class="btn-group" v-if="btnnum">
-              <a href="javascript:;" :class="'btn' + ' ' + btn.type">{{ btn.title }}</a>
-              <a href="javascript:;" class="btn cancelBtn" @click="closeHandel">取消</a>
+              <a href="javascript:;" :class="'btn' + ' ' + btn.type" @click="$emit('submit')">{{ btn.title }}</a>
+              <a href="javascript:;" class="btn cancelBtn" @click="$emit('cancel')">取消</a>
             </div>
           </div>
         </div>
@@ -42,6 +42,10 @@ export default {
     },
     btn: {
       type: Object,
+      default: new Object({
+        title: '确定',
+        type: '',
+      }),
     },
   },
   created() {},
@@ -50,7 +54,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../assets/scss/mixin.scss';
 @import '../assets/scss/config.scss';
 .modal {

@@ -194,8 +194,7 @@ export default {
     this.getProductList()
   },
   mounted() {
-    // const swiper = document.querySelector('.swiper-container').swiper
-    // swiper.autoplay.start()
+    if (this.$route.params.from == 'login') this.getCartCount()
   },
   methods: {
     getProductList() {
@@ -228,6 +227,11 @@ export default {
     },
     goToCart() {
       this.$router.push('/cart')
+    },
+    getCartCount() {
+      this.axios.get('/carts/products/sum').then((res = 0) => {
+        this.$store.commit('saveCartCount', res)
+      })
     },
   },
   components: {

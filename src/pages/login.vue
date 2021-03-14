@@ -19,7 +19,7 @@
             <a href="javascript:;" @click="login">登录</a>
           </div>
           <div class="tips">
-            <a href="javascript:;">手机短信登录/注册</a>
+            <a href="javascript:;" @click="register">手机短信登录/注册</a>
           </div>
         </div>
       </div>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie'
+import cookie from 'vue-cookie'
 export default {
   data() {
     return {
@@ -63,11 +63,24 @@ export default {
             },
           })
           let { id, username } = res
-          Cookies.set('userId', id, { expires: 30 })
+          cookie.set('userId', id, { expires: 'Session' })
           this.$store.commit('saveUserName', username)
+          this.$message.success('登录成功！')
         })
         .catch(res => {
+          this.$message.error(res)
           return Promise.reject(res)
+        })
+    },
+    register() {
+      this.axios
+        .post('/user/register', {
+          username: 'admin1',
+          password: 'admin1',
+          email: 'admin1@163.com',
+        })
+        .then(() => {
+          this.$message.success('用户注册成功')
         })
     },
   },

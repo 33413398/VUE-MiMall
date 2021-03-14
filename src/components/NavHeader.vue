@@ -11,6 +11,7 @@
         <div class="topbar-user">
           <a v-if="!username" href="#/login" target="_self" class="topbar-user-login">登录</a>
           <a v-if="username" href="javascript:;" target="_self" class="topbar-user-username">{{ username }}</a>
+          <a v-if="username" href="javascript:;" target="_self" class="topbar-user-username" @click="isModal = true">退出登录</a>
           <a v-if="username" href="javascript:;" target="_self" class="topbar-user-order">我的订单</a>
           <a href="javaScript:;" target="_self" class="topbar-user-cart">
             <span class="icon-cart"></span>
@@ -96,16 +97,21 @@
         </div>
       </div>
     </div>
+    <modal v-if="isModal" title="退出登录" v-on:cancel="isModal = false" content="确认退出登录吗？" :btnnum="true" @submit="logout"></modal>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import cookie from 'vue-cookie'
+import Modal from './Modal'
 export default {
+  components: { Modal },
   name: 'nav-Header',
   data() {
     return {
       phoneList: [],
+      isModal: false,
     }
   },
   computed: {
@@ -116,7 +122,7 @@ export default {
       //如果写了计算属性，那data状态中就不用再写该属性了，已经自动进入可以像调用属性那样调用值
       return this.$store.state.cartCount
     }, */
-    ...mapState(['username', 'username']), //简写方法，等同上面
+    ...mapState(['username', 'cartCount']), //简写方法，等同上面
   },
   mounted() {
     this.getProductList() //  展示顶部商品时再放开请求
@@ -133,6 +139,15 @@ export default {
         .then(res => {
           this.phoneList = res.list
         })
+    },
+    logout() {
+      this.axios.post('/user/logout').then(() => {
+        this.isModal = false
+        this.$message.warning('退出登录！')
+        this.$store.commit('saveUserName', '')
+        this.$store.commit('saveCartCount', 0)
+        cookie.set('userId', '', { expires: '-1' }) //expires为-1就表示立即失效清空cookie
+      })
     },
   },
 }

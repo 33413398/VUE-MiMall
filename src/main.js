@@ -6,6 +6,8 @@ import VueLazyloadNext from 'vue-lazyload-next'
 /* 一般布局，上面插件，下面组件 */
 import App from './App.vue'
 import store from './store/index'
+import {  ElMessage } from 'element-plus';
+import 'element-plus/lib/theme-chalk/index.css';
 
 // import env from './util/env'
 
@@ -28,7 +30,7 @@ axios.interceptors.response.use(
       }
        return Promise.reject(res)
     }
-    else alert(res.msg)
+    else return ElMessage.warning(res.msg)
   },
   function(error) {
     return Promise.reject(error)
@@ -36,6 +38,8 @@ axios.interceptors.response.use(
 )
 // 创建app
 const app = createApp(App)
+//将message组件挂载到全局
+app.use(ElMessage)
 // 注入路由
 app.use(router)
 // 挂载图片懒加载插件
