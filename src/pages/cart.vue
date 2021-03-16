@@ -10,7 +10,7 @@
         <div class="cart-box">
           <ul class="cart-item-head">
             <li class="col-1">
-              <span class="checkbox" :class="checkedAllflag ? 'checked' : ''" @click="checkedAllflag = !checkedAllflag"></span>
+              <span class="checkbox" :class="{ checked: selectedAll }" @click="toggleAll"></span>
               全选
             </li>
             <li class="col-2">商品名称</li>
@@ -20,54 +20,35 @@
             <li class="col-6">操作</li>
           </ul>
           <ul class="cart-item-list">
-            <li class="cart-item">
+            <li class="cart-item" v-for="(item, index) in list" :key="index">
               <div class="item-check">
-                <span class="checkbox" :class="checkedflag ? 'checked' : ''" @click="checkedflag = !checkedflag"></span>
+                <span class="checkbox" :class="item.productSelected ? 'checked' : ''" @click="updateCart(item)"></span>
               </div>
               <div class="item-name">
-                <img src="../../public/imgs/detail/phone-1.jpg" alt="手机图" />
-                <span>Redmi Note 8 Pro , 6400万全场景四摄</span>
+                <img :src="item.productMainImage" alt="手机图" />
+                <span>{{ item.productName }} , {{ item.productSubtitle }}</span>
               </div>
-              <div class="item-price">1399</div>
+              <div class="item-price">{{ item.productPrice }}</div>
               <div class="item-num">
                 <div class="num-box">
-                  <a href="javascript:;">-</a>
-                  <span>1</span>
-                  <a href="javascript:;">+</a>
+                  <a href="javascript:;" @click="updateCart(item, '-')">-</a>
+                  <span>{{ item.quantity }}</span>
+                  <a href="javascript:;" @click="updateCart(item, '+')">+</a>
                 </div>
               </div>
-              <div class="item-total">4197</div>
-              <div class="item-del"></div>
-            </li>
-            <li class="cart-item">
-              <div class="item-check">
-                <span class="checkbox" :class="checkedflag ? 'checked' : ''" @click="checkedflag = !checkedflag"></span>
-              </div>
-              <div class="item-name">
-                <img src="../../public/imgs/detail/phone-1.jpg" alt="手机图" />
-                <span>Redmi Note 8 Pro , 6400万全场景四摄</span>
-              </div>
-              <div class="item-price">1399</div>
-              <div class="item-num">
-                <div class="num-box">
-                  <a href="javascript:;">-</a>
-                  <span>1</span>
-                  <a href="javascript:;">+</a>
-                </div>
-              </div>
-              <div class="item-total">4197</div>
-              <div class="item-del"></div>
+              <div class="item-total">{{ item.productTotalPrice }}</div>
+              <div class="item-del" @click="delProduct(item)"></div>
             </li>
           </ul>
         </div>
         <div class="order-wrap clearfix">
           <div class="cart-tip fl">
-            <a href="javascript:;">继续购物</a>
-            共<span> 2 </span>件商品，已选择<span> 0 </span>件
+            <a href="#/index">继续购物</a>
+            共<span> {{ list.length || 0 }} </span>件商品，已选择<span> {{ selectedProduct }} </span>件
           </div>
           <div class="total fr">
-            合计：<span>0</span> 元
-            <a href="javascript:;">去结算</a>
+            合计：<span>{{ totalPrice || 0 }}</span> 元
+            <a href="javascript:;" @click="order">去结算</a>
           </div>
         </div>
       </div>
@@ -87,11 +68,95 @@ export default {
     return {
       checkedflag: false,
       checkedAllflag: false,
+      count: 1,
+      cartListData: {},
+      list: [],
+      totalPrice: 0,
+      productAllSum: 0,
+      // 是否全选
+      selectedAll: false,
+      //选择的商品数
+      selectedProduct: 0,
     }
   },
-  created() {},
+  created() {
+    this.getCartList()
+  },
   mounted() {},
-  methods: {},
+  methods: {
+    getCartList() {
+      this.axios.get('/carts').then(res => {
+        this.setStateData(res)
+      })
+    },
+    // 赋值方法
+    setStateData(res) {
+      if (res) {
+        let { cartProductVoList, cartTotalPrice, cartTotalQuantity, selectedAll } = res
+        this.list = cartProductVoList
+        // 总价
+        this.totalPrice = cartTotalPrice
+        //总数
+        this.productAllSum = cartTotalQuantity
+        // 是否全选
+        this.selectedAll = selectedAll
+        this.cartListData = res
+        this.selectedProduct = cartProductVoList.filter(item => item.productSelected).length
+      }
+    },
+    // 是否全选
+    toggleAll() {
+      let url = this.selectedAll ? '/carts/unSelectAll' : '/carts/selectAll'
+      this.axios.put(url).then(res => {
+        this.setStateData(res)
+      })
+    },
+    // 更新购物车数量和购物车单选状态
+    updateCart(item, type) {
+      let quantity = item.quantity,
+        selected = item.productSelected
+      if (type == '-') {
+        if (quantity == 1) {
+          this.$message.warning('商品至少保留一件')
+          return
+        }
+        --quantity
+      } else if (type == '+') {
+        if (quantity > item.productStock) {
+          this.$message.warning('购买数量不能超过库存数量')
+          return
+        }
+        ++quantity
+      } else {
+        selected = !item.productSelected
+      }
+      this.axios
+        .put(`/carts/${item.productId}`, {
+          quantity,
+          selected,
+        })
+        .then(res => {
+          this.setStateData(res)
+        })
+    },
+    // 删除购物车商品
+    delProduct(item) {
+      this.axios.delete(`/carts/${item.productId}`).then(res => {
+        this.$message.success('删除成功')
+        this.setStateData(res)
+      })
+    },
+    // 购物车下单
+    order() {
+      // every遍历每一项，如果都为真则真，否则假，返回布尔值
+      let isCheck = this.list.every(item => !item.productSelected)
+      if (isCheck) {
+        this.$message.warning('请选择一件商品')
+      } else {
+        this.$router.push('/order/confirm')
+      }
+    },
+  },
   components: {
     NavFooter,
     ServiceBar,
