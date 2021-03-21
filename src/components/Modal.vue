@@ -7,7 +7,10 @@
             {{ title }}
             <span class="cancel-icon" @click="$emit('cancel')"></span>
           </div>
-          <div class="modal-body">{{ content }}</div>
+          <div class="modal-body">
+            {{ content }}
+            <slot name="content"></slot>
+          </div>
           <div class="modal-footer ">
             <a v-if="!btnnum" href="javascript:;" :class="'btn' + ' ' + btn.type" @click="$emit('submit')">{{ btn.title }}</a>
             <div class="btn-group" v-if="btnnum">
@@ -34,7 +37,7 @@ export default {
     },
     content: {
       type: String,
-      default: 'content',
+      default: '',
     },
     btnnum: {
       type: Boolean,
@@ -77,7 +80,7 @@ export default {
       left: 50%;
       transform: translateX(-50%);
       width: 660px;
-      height: 257px;
+      min-height: 257px;
       transition: all 0.5s;
       background-color: #fff;
       .slide-enter-active {
