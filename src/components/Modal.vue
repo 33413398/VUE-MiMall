@@ -15,7 +15,7 @@
             <a v-if="!btnnum" href="javascript:;" :class="'btn' + ' ' + btn.type" @click="$emit('submit')">{{ btn.title }}</a>
             <div class="btn-group" v-if="btnnum">
               <a href="javascript:;" :class="'btn' + ' ' + btn.type" @click="$emit('submit')">{{ btn.title }}</a>
-              <a href="javascript:;" class="btn cancelBtn" @click="$emit('cancel')">取消</a>
+              <a href="javascript:;" class="btn cancelBtn" @click="$emit('cancel')">{{ cancel }}</a>
             </div>
           </div>
         </div>
@@ -42,6 +42,10 @@ export default {
     btnnum: {
       type: Boolean,
       default: false,
+    },
+    cancel: {
+      type: String,
+      default: '取消',
     },
     btn: {
       type: Object,

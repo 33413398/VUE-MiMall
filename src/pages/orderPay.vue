@@ -63,18 +63,25 @@
       </div>
     </div>
     <loading v-if="loadingFlag"></loading>
+    <we-chat-pay v-if="weChatFlag" :img="weChatPay" @cancel="weChatCancel"></we-chat-pay>
+    <modal v-if="modalFlag" title="支付确认" content="您确认是否完成支付？" btnnum :btn="btn" cancel="未支付" @cancel="modalFlag = false" @submit="submitHandle"></modal>
   </div>
 </template>
 
 <script>
 import Loading from '../components/Loading.vue'
 import OrderHeader from '../components/OrderHeader.vue'
+import ORCode from 'qrcode'
+import WeChatPay from '../components/WeChatPay.vue'
+import Modal from '../components/Modal.vue'
+
 export default {
-  components: { OrderHeader, Loading },
+  components: { OrderHeader, Loading, WeChatPay, Modal },
   name: 'orderpay',
   data() {
     return {
       showInfo: false,
+      weChatFlag: false,
       // 订单ID
       orderNo: this.$route.query.orderNo,
       // 购物车商品信息
@@ -87,6 +94,14 @@ export default {
       checkedPay: 0,
       // 是否展示loding
       loadingFlag: false,
+      modalFlag: false,
+      weChatPay: '',
+      btn: {
+        title: '查看订单',
+        type: '',
+      },
+      // 轮询定时器
+      T: '',
     }
   },
   created() {},
@@ -108,10 +123,45 @@ export default {
       if (this.checkedPay == 1) {
         // 支付宝
         this.loadingFlag = true
+        window.open('/#/order/alipay?orderId=' + this.orderNo, '_blank')
       } else if (this.checkedPay == 2) {
         // 微信
-        this.loadingFlag = true
+        this.axios
+          .post('/pay', {
+            orderId: this.orderNo,
+            orderName: '小米商城支付', //扫码支付时订单名称
+            amount: 0.01, //单位元
+            payType: 2, //1支付宝，2微信
+          })
+          .then(res => {
+            ORCode.toDataURL(res.content)
+              .then(url => {
+                this.weChatPay = url
+                this.weChatFlag = true
+                this.T = setInterval(() => {
+                  this.axios.get(`/orders/${this.orderNo}`).then(res => {
+                    if (res.status == 20) {
+                      clearInterval(this.T)
+                      this.submitHandle()
+                    }
+                  })
+                }, 1000)
+              })
+              .catch(() => {
+                this.$message.error('微信二维码生成失败，请稍后重试')
+              })
+          })
       }
+    },
+    // 查看订单
+    submitHandle() {
+      this.$router.push('/order/list')
+    },
+    // 关闭付款码
+    weChatCancel() {
+      this.weChatFlag = false
+      this.modalFlag = true
+      clearInterval(this.T)
     },
   },
 }
