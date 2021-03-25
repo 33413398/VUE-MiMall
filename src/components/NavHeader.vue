@@ -13,7 +13,7 @@
           <a v-if="username" href="javascript:;" target="_self" class="topbar-user-username">{{ username }}</a>
           <a v-if="username" href="javascript:;" target="_self" class="topbar-user-username" @click="isModal = true">退出登录</a>
           <a v-if="username" href="/#/order/list" target="_self" class="topbar-user-order">我的订单</a>
-          <a href="javaScript:;" target="_self" class="topbar-user-cart">
+          <a href="/#/cart" target="_self" class="topbar-user-cart">
             <span class="icon-cart"></span>
             <span>购物车({{ this.$store.state.cartCount }})</span>
           </a>
@@ -143,7 +143,7 @@ export default {
     logout() {
       this.axios.post('/user/logout').then(() => {
         this.isModal = false
-        this.$message.warning('退出登录！')
+        this.$message.warning('退出登录成功！')
         this.$store.commit('saveUserName', '')
         this.$store.commit('saveCartCount', 0)
         cookie.set('userId', '', { expires: '-1' }) //expires为-1就表示立即失效清空cookie

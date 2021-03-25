@@ -5,10 +5,11 @@
       <p>小米商城</p>
     </div>
     <div class="footer-link">
-      <a href="javaScript:;" target="_blank">作者博客</a><span>|</span> <a href="javaScript:;" target="_blank">GitHub</a><span>|</span>
-      <a href="javaScript:;" target="_blank">作者邮箱</a>
+      <a href="https://blog.csdn.net/h33413398?spm=1000.2115.3001.5343&type=blog" target="_blank">作者博客</a><span>|</span> <a href="https://github.com/33413398" target="_blank">GitHub</a
+      ><span>|</span>
+      <a href="javaScript:;">作者邮箱</a>
     </div>
-    <div class="copyright">Copyright ©2020 <span class="domain">mi.futurefe.com</span> All Rights Reserved.</div>
+    <div class="copyright">Copyright ©2021 <span class="domain">f.mi.com</span> 基于vue3.0开发.</div>
   </div>
 </template>
 

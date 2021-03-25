@@ -42,6 +42,7 @@ export default {
       width: 55px;
       line-height: 55px;
       background-color: $colorA;
+      overflow: hidden;
       a {
         display: inline-block;
         height: 55px;
