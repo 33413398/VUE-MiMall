@@ -38,6 +38,12 @@
             </div>
           </div>
           <loading v-if="loadingFlag"></loading>
+          <!-- infinite-scroll-distance 距离页面底部高度 -->
+          <!-- <div v-infinite-scroll="loadMore" infinite-scroll-disabled="true" infinite-scroll-distance="410">
+            <img src="../../public/imgs/loading-svg/loading-spinning-bubbles.svg" alt="" v-show="loading" />
+          </div> -->
+          <!-- <el-button type="primary" :loading="buttFlag" @click="moreButHandle">加载更多</el-button> -->
+          <no-data v-if="orderList.length === 0 && loadingFlag === false"></no-data>
           <el-pagination v-show="pageFlag" class="pagination" background layout="prev, pager, next" :pageSize="pageSize" :total="total" @current-change="handleChange"> </el-pagination>
         </div>
       </div>
@@ -48,8 +54,10 @@
 <script>
 import Loading from '../components/Loading.vue'
 import OrderHeader from '../components/OrderHeader.vue'
+import infiniteScroll from 'vue-infinite-scroll'
+import NoData from '../components/NoData.vue'
 export default {
-  components: { OrderHeader, Loading },
+  components: { OrderHeader, Loading, NoData },
   name: 'orderlist',
   data() {
     return {
@@ -59,7 +67,13 @@ export default {
       orderList: [],
       loadingFlag: true,
       pageFlag: false,
+      buttFlag: true,
+      loading: false,
+      busy: false, //滚动加载，是否触发
     }
+  },
+  directives: {
+    infiniteScroll,
   },
   created() {},
   mounted() {
@@ -67,6 +81,8 @@ export default {
   },
   methods: {
     getOrderList() {
+      this.loading = true
+      this.busy = true
       this.axios
         .get('/orders', {
           params: {
@@ -79,17 +95,10 @@ export default {
           this.total = res.total
           this.loadingFlag = false
           this.pageFlag = true
+          this.buttFlag = false
         })
     },
     goPay(orderNo) {
-      // 三种路由跳转方式
-      // this.$router.push('/order/pay')
-      /*this.$router.push({
-          name:'order-pay',
-          query:{
-            orderNo
-          }
-        })*/
       this.$router.push({
         path: '/order/pay',
         query: {
@@ -101,6 +110,39 @@ export default {
     handleChange(pageNum) {
       this.pageNum = pageNum
       this.getOrderList()
+    },
+    // 加载更多分页
+    moreButHandle() {
+      this.pageNum = this.pageNum++
+      this.getOrderList()
+    },
+    // 触底加载
+    loadMore: function() {
+      this.busy = true
+      setTimeout(() => {
+        this.pageNum++
+        this.getList()
+      }, 500)
+    },
+    // 专门给scrollMore使用
+    getList() {
+      this.loading = true
+      this.axios
+        .get('/orders', {
+          params: {
+            pageSize: 10,
+            pageNum: this.pageNum,
+          },
+        })
+        .then(res => {
+          this.orderList = this.orderList.concat(res.list)
+          this.loading = false
+          if (res.hasNextPage) {
+            this.busy = false
+          } else {
+            this.busy = true
+          }
+        })
     },
   },
 }

@@ -143,7 +143,7 @@ export default {
     logout() {
       this.axios.post('/user/logout').then(() => {
         this.isModal = false
-        this.$message.warning('退出登录！')
+        this.$message.warning('退出登录成功！')
         this.$store.commit('saveUserName', '')
         this.$store.commit('saveCartCount', 0)
         cookie.set('userId', '', { expires: '-1' }) //expires为-1就表示立即失效清空cookie

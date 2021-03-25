@@ -6,7 +6,7 @@ import VueLazyloadNext from 'vue-lazyload-next'
 /* 一般布局，上面插件，下面组件 */
 import App from './App.vue'
 import store from './store/index'
-import {  ElMessage,ElPagination } from 'element-plus';
+import {  ElMessage,ElPagination,ElButton } from 'element-plus';
 import 'element-plus/lib/theme-chalk/index.css';
 
 // import env from './util/env'
@@ -41,6 +41,7 @@ const app = createApp(App)
 //将message组件挂载到全局
 app.use(ElMessage)
 app.use(ElPagination)
+app.use(ElButton);
 
 // 注入路由
 app.use(router)
